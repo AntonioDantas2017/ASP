@@ -1,0 +1,23 @@
+<SCRIPT LANGUAGE="VBScript" RUNAT="Server"> 
+
+Sub Application_OnStart ' Sub Application_OnStart é a função que inicia cada vez que o servidor começa.
+	Session.Timeout = 30 ' Iremos validar o tempo que o usuário poderá estar on-line. 
+	Session.LCID = 1046 'Configuração de data/hora 
+	Application.Lock ' O método Lock trava a variável Application para que possamos atualizar a mesma. 
+	Application("Momento") = 0 ' Vamos começar a variável em 0 
+	Application.UnLock ' Destravamos agora.
+End Sub
+
+Sub Session_OnStart ' Sub Session_OnStart é a função que inicia por cada vez que um visitante entra no site.
+	Application.Lock 
+	Application("Momento") = Application("Momento") + 1 ' Aqui vamos então incrementar a nossa variável
+	Application.UnLock
+End Sub
+
+Sub Session_OnEnd ' Sub Session_OnEnd é a função que inicia cada vez que um visitante sai do site
+	Application.Lock
+	Application("Momento") = Application("Momento") - 1 ' Aqui vamos decrementar a variável "Momento"
+	Application.UnLock
+End Sub
+
+</SCRIPT>
